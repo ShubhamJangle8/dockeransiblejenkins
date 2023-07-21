@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'mymaven'
+    }
+
+
     stages {
         stage("welcome msg"){
             steps {
