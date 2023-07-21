@@ -34,7 +34,7 @@ pipeline {
         }
         stage("docker build"){
             steps {
-                sh "docker build . -t image-java-tomcat:latest"
+                sh "sudo docker build . -t image-java-tomcat:latest"
             }
         }
     }
