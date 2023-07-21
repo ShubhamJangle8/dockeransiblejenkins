@@ -1,50 +1,41 @@
-pipeline{
+pipeline {
     agent any
-    tools {
-      maven 'maven3'
-    }
-    environment {
-      DOCKER_TAG = getVersion()
-    }
-    stages{
-        stage('SCM'){
-            steps{
-                git credentialsId: 'github', 
-                    url: 'https://github.com/javahometech/dockeransiblejenkins'
-            }
-        }
-        
-        stage('Maven Build'){
-            steps{
-                sh "mvn clean package"
-            }
-        }
-        
-        stage('Docker Build'){
-            steps{
-                sh "docker build . -t kammana/hariapp:${DOCKER_TAG} "
-            }
-        }
-        
-        stage('DockerHub Push'){
-            steps{
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-                    sh "docker login -u kammana -p ${dockerHubPwd}"
-                }
-                
-                sh "docker push kammana/hariapp:${DOCKER_TAG} "
-            }
-        }
-        
-        stage('Docker Deploy'){
-            steps{
-              ansiblePlaybook credentialsId: 'dev-server', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
-            }
-        }
-    }
-}
 
-def getVersion(){
-    def commitHash = sh label: '', returnStdout: true, script: 'git rev-parse --short HEAD'
-    return commitHash
+    stages {
+        stage("welcome msg"){
+            steps {
+                echo "Welcome to demo pipeline"
+            }
+        }
+        stage("commit"){
+            steps {
+                git branch: 'master', url: 'https://github.com/ShubhamJangle8/java-tomcat-maven-example.git'
+            }   
+        }
+        stage("clean"){
+            steps {
+                sh "mvn clean"
+            }
+        }
+        stage("compile"){
+            steps {
+                sh "mvn compile"
+            }
+        }
+        stage("package"){
+            steps {
+                sh "mvn package"
+            }
+        }
+        stage("deploy"){
+            steps {
+                sh "sudo cp /var/lib/jenkins/workspace/jenkinsPipeline/target/ABCtechnologies-1.0.war /usr/share/tomcat/webapps/"
+            }
+        }
+        stage("docker build"){
+            steps {
+                sh "docker build . -t image-java-tomcat:latest"
+            }
+        }
+    }
 }
