@@ -9,7 +9,7 @@ pipeline {
         }
         stage("commit"){
             steps {
-                git branch: 'master', url: 'https://github.com/ShubhamJangle8/java-tomcat-maven-example.git'
+                git branch: 'master', url: 'https://github.com/ShubhamJangle8/dockeransiblejenkins.git
             }   
         }
         stage("clean"){
@@ -25,11 +25,6 @@ pipeline {
         stage("package"){
             steps {
                 sh "mvn package"
-            }
-        }
-        stage("deploy"){
-            steps {
-                sh "sudo cp /var/lib/jenkins/workspace/jenkinsPipeline/target/ABCtechnologies-1.0.war /usr/share/tomcat/webapps/"
             }
         }
         stage("docker build"){
