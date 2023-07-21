@@ -9,7 +9,7 @@ pipeline {
         }
         stage("commit"){
             steps {
-                git branch: 'master', url: 'https://github.com/ShubhamJangle8/dockeransiblejenkins.git
+                git branch: 'master', url: 'https://github.com/ShubhamJangle8/dockeransiblejenkins.git'
             }   
         }
         stage("clean"){
