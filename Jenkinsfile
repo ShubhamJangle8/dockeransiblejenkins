@@ -50,7 +50,7 @@ pipeline {
         }
         stage("deploy on container through ansible") {
             steps {
-                ansiblePlaybook credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${DOCKERIMAGETAG}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${DOCKERIMAGETAG}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
 
         }
