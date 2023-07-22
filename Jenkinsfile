@@ -5,7 +5,7 @@ pipeline {
         maven 'mymaven'
     }
     environment {
-        DOCKERIMAGETAG: getVersion()
+        DOCKERIMAGETAG = getVersion()
     }
 
     stages {
