@@ -4,7 +4,9 @@ pipeline {
     tools {
         maven 'mymaven'
     }
-
+    environment {
+        DOCKERIMAGETAG: getVersion()
+    }
 
     stages {
         stage("welcome msg"){
@@ -34,7 +36,7 @@ pipeline {
         }
         stage("docker build"){
             steps {
-                sh "sudo docker build . -t sjangale/image-java-tomcat:latest"
+                sh "sudo docker build . -t sjangale/image-java-tomcat:${DOCKERIMAGETAG}"
             }
         }
         stage("dockerhub push") {
@@ -42,9 +44,14 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'dockerPass', usernameVariable: 'dockerUser')]) {
                     // some block
                     sh 'echo ${dockerPass} | sudo docker login --username ${dockerUser} --password-stdin'
-                    sh 'sudo docker push sjangale/image-java-tomcat:latest'
+                    sh 'sudo docker push sjangale/image-java-tomcat:${DOCKERIMAGETAG}'
                 }
             }
         }
     }
+}
+
+def getVersion() {
+    def commitHash = sh label: '', returnStdout: true, script: 'git rev-parse --short HEAD'
+    return commitHash
 }
