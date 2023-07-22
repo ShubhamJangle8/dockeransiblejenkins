@@ -42,7 +42,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'dockerPass', usernameVariable: 'dockerUser')]) {
                     // some block
                     sh 'echo ${dockerPass} | sudo docker login --username ${dockerUser} --password-stdin'
-                    sh 'docker push sjangale/image-java-tomcat:latest'
+                    sh 'sudo docker push sjangale/image-java-tomcat:latest'
                 }
             }
         }
