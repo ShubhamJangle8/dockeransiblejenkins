@@ -36,7 +36,7 @@ pipeline {
         }
         stage("docker build"){
             steps {
-                sh "sudo docker build . -t sjangale/image-java-tomcat:${DOCKERIMAGETAG}"
+                sh "sudo docker build . -t sjangale/image-java-tomcat:${BUILD_NUMBER}"
             }
         }
         stage("dockerhub push") {
@@ -44,13 +44,13 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'dockerPass', usernameVariable: 'dockerUser')]) {
                     // some block
                     sh 'echo ${dockerPass} | sudo docker login --username ${dockerUser} --password-stdin'
-                    sh 'sudo docker push sjangale/image-java-tomcat:${DOCKERIMAGETAG}'
+                    sh 'sudo docker push sjangale/image-java-tomcat:${BUILD_NUMBER}'
                 }
             }
         }
         stage("deploy on container through ansible") {
             steps {
-                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${DOCKERIMAGETAG}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
 
         }
