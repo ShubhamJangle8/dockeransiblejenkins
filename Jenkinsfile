@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'mymaven',
+        maven 'mymaven'
         ansible 'ansible'
     }
     environment {
