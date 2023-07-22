@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         maven 'mymaven'
-        ansible 'ansible'
     }
     environment {
         DOCKERIMAGETAG = getVersion()
