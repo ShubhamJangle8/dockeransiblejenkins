@@ -48,6 +48,12 @@ pipeline {
                 }
             }
         }
+        stage("deploy on container through ansible") {
+            steps {
+                ansiblePlaybook credentialsId: 'ansibleCred', extras: 'DOCKERIMAGETAG=${DOCKERIMAGETAG}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
+            }
+
+        }
     }
 }
 
