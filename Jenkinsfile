@@ -55,7 +55,7 @@ pipeline {
         }
         stage('slack notification') {
             steps {
-                slackSend channel: 'notification-slack-ec2', message: 'Deployment successful'
+                slackSend baseUrl: 'https://workspaceofshubham.slack.com/archives/C05HWFM819V/', channel: 'notification-slack-ec2', failOnError: true, message: 'Deployment successful', teamDomain: 'workspace of Shubham', username: 'Shubham Jangale'
             }
         }
     }
