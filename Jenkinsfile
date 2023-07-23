@@ -34,6 +34,19 @@ pipeline {
                 sh "mvn package"
             }
         }
+        stage("sonar scan") {
+            environment {
+                 SONAR-SERVER = 'sonar-server'
+            }
+            steps {
+                withSonarQubeEnv(SONAR-SERVER) {
+                    sh """mvn sonar:sonar 
+                          -Dsonar.projectKey=my-project-key 
+                          -Dsonar.host.url=http://13.233.115.116:9000 
+                          -Dsonar.login=e7c99240c1bad902c0cfa32b875a95dde19abd3c"""
+                }
+            }
+        }
         stage("docker build"){
             steps {
                 sh "sudo docker build . -t sjangale/image-java-tomcat:${BUILD_NUMBER}"
