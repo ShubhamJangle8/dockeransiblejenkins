@@ -55,7 +55,7 @@ pipeline {
         }
         stage('slack notification') {
             steps {
-                slackSend channel: 'notification-slack-ec2', failOnError: true, message: 'Deployment successful', teamDomain: 'workspaceofShubham', tokenCredentialId: 'slack-credentials', username: 'jenkins'
+                slackSend channel: 'notification-slack-ec2', failOnError: true, message: 'Deployment successful', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slack-credentials', username: 'jenkins'
             }
         }
     }
