@@ -52,7 +52,11 @@ pipeline {
             steps {
                 ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
-
+        }
+        stage('slack notification') {
+            steps {
+                slackSend channel: 'notification-slack-ec2', message: 'Deployment successful'
+            }
         }
     }
 }
