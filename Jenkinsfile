@@ -6,8 +6,8 @@ pipeline {
     }
     environment {
         DOCKERIMAGETAG = getVersion()
+        SONAR_SERVER = 'sonar-server'
     }
-
     stages {
         stage("welcome msg"){
             steps {
@@ -35,11 +35,8 @@ pipeline {
             }
         }
         stage("sonar scan") {
-            environment {
-                 SONAR-SERVER = 'sonar-server'
-            }
             steps {
-                withSonarQubeEnv(SONAR-SERVER) {
+                withSonarQubeEnv(SONAR_SERVER) {
                     sh """mvn sonar:sonar 
                           -Dsonar.projectKey=my-project-key 
                           -Dsonar.host.url=http://13.233.115.116:9000 
