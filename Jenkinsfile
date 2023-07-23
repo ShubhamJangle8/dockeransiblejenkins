@@ -58,14 +58,44 @@ pipeline {
                 }
             }
         }
-        stage("deploy on container through ansible") {
+        stage("deploy on Dev container through ansible") {
             steps {
                 ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
         }
         stage('slack notification') {
             steps {
-                slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
+                slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Dev Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
+            }
+        }
+        stage("approval for test server") {
+            steps {
+                input message: 'Do you want to surely proceed to Test server?', submitter: 'admin'
+            }
+        }
+        stage("deploy on Test container through ansible") {
+            steps {
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'test.inv', playbook: 'deploy-docker.yml'
+            }
+        }
+        stage('slack notification') {
+            steps {
+                slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Test Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
+            }
+        }
+        stage("approval for Prod server") {
+            steps {
+                input message: 'Do you want to surely proceed to Prod server?', submitter: 'admin'
+            }
+        }
+        stage("deploy on Prod container through ansible") {
+            steps {
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'prod.inv', playbook: 'deploy-docker.yml'
+            }
+        }
+        stage('slack notification') {
+            steps {
+                slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Prod Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
             }
         }
     }
