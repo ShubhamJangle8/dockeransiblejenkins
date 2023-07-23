@@ -75,7 +75,7 @@ pipeline {
         }
         stage("deploy on Test container through ansible") {
             steps {
-                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'test.inv', playbook: 'deploy-docker-test.yml'
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'test.inv', playbook: 'docker-deploy-test.yml'
             }
         }
         stage('slack notification for test') {
@@ -90,7 +90,7 @@ pipeline {
         }
         stage("deploy on Prod container through ansible") {
             steps {
-                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'prod.inv', playbook: 'deploy-docker-prod.yml'
+                ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'prod.inv', playbook: 'docker-deploy-prod.yml'
             }
         }
         stage('slack notification for prod') {
