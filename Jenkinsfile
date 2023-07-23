@@ -37,9 +37,9 @@ pipeline {
         stage("sonar scan") {
             steps {
                 withSonarQubeEnv(SONAR_SERVER) {
-                    sh """mvn sonar:sonar 
-                          -Dsonar.projectKey=my-project-key 
-                          -Dsonar.host.url=http://13.233.115.116:9000 
+                    sh """mvn sonar:sonar \
+                          -Dsonar.projectKey=my-project-key \
+                          -Dsonar.host.url=http://13.233.115.116:9000 \
                           -Dsonar.login=e7c99240c1bad902c0cfa32b875a95dde19abd3c"""
                 }
             }
