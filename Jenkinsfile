@@ -63,7 +63,7 @@ pipeline {
                 ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
             }
         }
-        stage('slack notification') {
+        stage('slack notification for dev') {
             steps {
                 slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Dev Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
             }
@@ -78,7 +78,7 @@ pipeline {
                 ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'test.inv', playbook: 'deploy-docker-test.yml'
             }
         }
-        stage('slack notification') {
+        stage('slack notification for test') {
             steps {
                 slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Test Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
             }
@@ -93,7 +93,7 @@ pipeline {
                 ansiblePlaybook become: true, credentialsId: 'ansibleCred', disableHostKeyChecking: true, extras: '-e DOCKERIMAGETAG=${BUILD_NUMBER}', installation: 'ansible', inventory: 'prod.inv', playbook: 'deploy-docker-prod.yml'
             }
         }
-        stage('slack notification') {
+        stage('slack notification for prod') {
             steps {
                 slackSend channel: 'notifications', failOnError: true, message: 'Deployment successful on docker container on Prod Server', teamDomain: 'workspaceofshubham', tokenCredentialId: 'slackcred', username: 'jenkins'
             }
