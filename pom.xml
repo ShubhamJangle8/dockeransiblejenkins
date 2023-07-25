@@ -15,10 +15,20 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>maven-releases</id>
+      <url>http://52.66.68.187:8081/repository/maven-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-snapshots</id>
+      <url>http://52.66.68.187:8081/repository/maven-releases</url>
+    </snapshotRepository>
+  </distributionManagement>
   <repositories>
     <repository>
       <id>maven-releases</id>
-      <name>admin</name>
+      <name>maven-releases</name>
       <url>http://52.66.68.187:8081/repository/maven-releases</url>
     </repository>
   </repositories>
