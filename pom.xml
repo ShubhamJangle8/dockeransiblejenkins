@@ -15,6 +15,14 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>maven-releases</id>
+      <name>admin</name>
+      <url>http://52.66.68.187:8081/repository/maven-releases</url>
+    </repository>
+  </repositories>
+  
   <build>
     <finalName>dockeransible</finalName>
   </build>
