@@ -34,14 +34,14 @@ pipeline {
                 sh "mvn package"
             }
         }
-        // stage("maven to nexus"){
-        //     steps{
-        //         configFileProvider([configFile(fileId: '879120b0-d187-49a0-9a2a-21c6d17433b1', variable: 'mavensettings')]) {
-        //             // some block
-        //             sh "mvn -s $mavensettings clean deploy -DskipTests=true"
-        //         }
-        //     }
-        // }
+        stage("maven to nexus"){
+            steps{
+                configFileProvider([configFile(fileId: '879120b0-d187-49a0-9a2a-21c6d17433b1', variable: 'mavensettings')]) {
+                    // some block
+                    sh "mvn -s $mavensettings clean deploy -DskipTests=true"
+                }
+            }
+        }
         stage("sonar scan") {
             steps {
                 withSonarQubeEnv(SONAR_SERVER) {
